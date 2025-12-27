@@ -3,6 +3,7 @@ package ds.assignment.tring;
 import ds.assignment.common.utils.PoissonGenerator;
 import java.io.*;
 import java.net.*;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -69,7 +70,7 @@ public class TokenRingPeer {
                 double arg2 = random.nextDouble() * 100;
                 if ("div".equals(op) && Math.abs(arg2) < 0.001) arg2 = 1.0;
                 
-                String request = String.format("%s:%.2f:%.2f", op, arg1, arg2);
+                String request = String.format(Locale.US, "%s:%.2f:%.2f", op, arg1, arg2);
                 requestQueue.offer(request);
                 System.out.println(peerId + ": Generated " + request);
             } catch (InterruptedException e) {
@@ -107,6 +108,12 @@ public class TokenRingPeer {
                     String response = in.readLine();
                     System.out.println(peerId + ": " + request + " = " + response);
                     
+                    // Add small delay between processing requests
+                    Thread.sleep(500);
+                    
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
                 } catch (Exception e) {
                     System.err.println(peerId + ": Calculator error: " + e.getMessage());
                 }
@@ -116,6 +123,13 @@ public class TokenRingPeer {
     
     private void forwardToken() {
         String primaryNext = nextPeerHost + ":" + nextPeerPort;
+        
+        // Add delay to slow down token circulation for better observation
+        try {
+            Thread.sleep(2000); // 2 second delay before forwarding
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         
         // Try normal forwarding first, then use failure recovery
         try (Socket socket = new Socket(nextPeerHost, nextPeerPort);
