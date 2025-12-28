@@ -198,24 +198,58 @@ run-p2p-p5-convergence:
 run-p2p-p6-convergence:
 	$(JAVA) -cp $(CLASSPATH) $(P2P_PKG).P2PPeer p6 8006 0.0
 
-# Total Order Multicast targets
+# Total Order Multicast (Chat Application) targets
 run-tom-p1:
-	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).TOMPeer p1 8001
+	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).ChatPeer p1 8081 p2:localhost:8082 p3:localhost:8083 p4:localhost:8084 p5:localhost:8085 p6:localhost:8086
 
 run-tom-p2:
-	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).TOMPeer p2 8002
+	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).ChatPeer p2 8082 p1:localhost:8081 p3:localhost:8083 p4:localhost:8084 p5:localhost:8085 p6:localhost:8086
 
 run-tom-p3:
-	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).TOMPeer p3 8003
+	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).ChatPeer p3 8083 p1:localhost:8081 p2:localhost:8082 p4:localhost:8084 p5:localhost:8085 p6:localhost:8086
 
 run-tom-p4:
-	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).TOMPeer p4 8004
+	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).ChatPeer p4 8084 p1:localhost:8081 p2:localhost:8082 p3:localhost:8083 p5:localhost:8085 p6:localhost:8086
 
 run-tom-p5:
-	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).TOMPeer p5 8005
+	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).ChatPeer p5 8085 p1:localhost:8081 p2:localhost:8082 p3:localhost:8083 p4:localhost:8084 p6:localhost:8086
 
 run-tom-p6:
-	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).TOMPeer p6 8006
+	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).ChatPeer p6 8086 p1:localhost:8081 p2:localhost:8082 p3:localhost:8083 p4:localhost:8084 p5:localhost:8085
+
+# Run chat application test
+test-tom-chat:
+	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).TestChatApplication
+
+# Test malicious peer detection [EXTRA MARKS]
+test-tom-security:
+	./test_malicious_peer.sh
+
+# Visual security demo in terminals [EXTRA MARKS]
+run-tom-security-demo:
+	./run_security_demo.sh
+
+# Launch all TOM chat peers in separate terminals
+run-tom-demo: compile
+	@echo "Launching Total Order Multicast Chat demonstration in separate terminals..."
+	@echo "Opening chat peer p1..."
+	xterm -T "Chat Peer p1" -e "make run-tom-p1; bash" &
+	@sleep 0.5
+	@echo "Opening chat peer p2..."
+	xterm -T "Chat Peer p2" -e "make run-tom-p2; bash" &
+	@sleep 0.5
+	@echo "Opening chat peer p3..."
+	xterm -T "Chat Peer p3" -e "make run-tom-p3; bash" &
+	@sleep 0.5
+	@echo "Opening chat peer p4..."
+	xterm -T "Chat Peer p4" -e "make run-tom-p4; bash" &
+	@sleep 0.5
+	@echo "Opening chat peer p5..."
+	xterm -T "Chat Peer p5" -e "make run-tom-p5; bash" &
+	@sleep 0.5
+	@echo "Opening chat peer p6..."
+	xterm -T "Chat Peer p6" -e "make run-tom-p6; bash" &
+	@echo "All chat peers launched! Watch them exchange words with total ordering."
 
 # Utility targets
 clean:
@@ -251,13 +285,17 @@ help:
 	@echo "  run-p2p-p5       - Start P2P peer p5"
 	@echo "  run-p2p-p6       - Start P2P peer p6"
 	@echo ""
-	@echo "Total Order Multicast:"
-	@echo "  run-tom-p1       - Start TOM peer p1"
-	@echo "  run-tom-p2       - Start TOM peer p2"
-	@echo "  run-tom-p3       - Start TOM peer p3"
-	@echo "  run-tom-p4       - Start TOM peer p4"
-	@echo "  run-tom-p5       - Start TOM peer p5"
-	@echo "  run-tom-p6       - Start TOM peer p6"
+	@echo "Total Order Multicast (Chat Application):"
+	@echo "  run-tom-demo     - Launch ALL chat peers in separate terminals"
+	@echo "  test-tom-chat    - Run chat application test (automated)"
+	@echo "  test-tom-security- Test malicious peer detection [EXTRA MARKS]"
+	@echo "  run-tom-security-demo - Visual security demo with attack terminals [EXTRA MARKS]"
+	@echo "  run-tom-p1       - Start chat peer p1"
+	@echo "  run-tom-p2       - Start chat peer p2"
+	@echo "  run-tom-p3       - Start chat peer p3"
+	@echo "  run-tom-p4       - Start chat peer p4"
+	@echo "  run-tom-p5       - Start chat peer p5"
+	@echo "  run-tom-p6       - Start chat peer p6"
 	@echo ""
 	@echo "TESTING:"
 	@echo "  test-calculator  - Test calculator server operations"
@@ -302,5 +340,5 @@ rebuild: clean compile
         run-tring-server run-tring-p1 run-tring-p2 run-tring-p3 run-tring-p4 run-tring-p5 run-tring-demo \
         run-p2p-p1 run-p2p-p2 run-p2p-p3 run-p2p-p4 run-p2p-p5 run-p2p-p6 run-p2p-demo \
         run-p2p-p1-convergence run-p2p-p2-convergence run-p2p-p3-convergence run-p2p-p4-convergence run-p2p-p5-convergence run-p2p-p6-convergence \
-        run-tom-p1 run-tom-p2 run-tom-p3 run-tom-p4 run-tom-p5 run-tom-p6 \
+        run-tom-p1 run-tom-p2 run-tom-p3 run-tom-p4 run-tom-p5 run-tom-p6 run-tom-demo test-tom-chat test-tom-security run-tom-security-demo \
         test-basic test-failure test-calculator test-poisson test-all
