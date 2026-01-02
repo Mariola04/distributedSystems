@@ -22,7 +22,7 @@ public class TokenRingPeer {
     
     private final BlockingQueue<String> requestQueue = new LinkedBlockingQueue<>();
     private final Random random = new Random();
-    private final SimpleFailureRecovery failureRecovery;
+    private final FailureRecovery failureRecovery;
     private ServerSocket serverSocket;
     private volatile boolean running = true;
     
@@ -38,7 +38,7 @@ public class TokenRingPeer {
         this.calculatorHost = calcParts[0];
         this.calculatorPort = Integer.parseInt(calcParts[1]);
         
-        this.failureRecovery = new SimpleFailureRecovery(peerId);
+        this.failureRecovery = new FailureRecovery(peerId);
     }
     
     public void start() throws Exception {

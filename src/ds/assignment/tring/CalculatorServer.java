@@ -56,7 +56,7 @@ public class CalculatorServer {
                     double x = Double.parseDouble(sc.next());
                     double y = Double.parseDouble(sc.next());
                     
-                    // Calculate result (professor's exact logic)
+                    // Calculate result
                     double result = 0.0;
                     switch (op) {
                         case "add": result = x + y; break;

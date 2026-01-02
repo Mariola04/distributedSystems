@@ -7,13 +7,13 @@ import java.net.*;
  * Simple failure recovery for [EXTRA MARKS] using socket timeouts (60 lines)
  * Detects failed peers and attempts to skip them in the ring
  */
-public class SimpleFailureRecovery {
+public class FailureRecovery {
     
     private final String peerId;
     private final String[] allPeers = {"localhost:8001", "localhost:8002", "localhost:8003", "localhost:8004", "localhost:8005"};
     private static final int CONNECTION_TIMEOUT = 3000; // 3 seconds
     
-    public SimpleFailureRecovery(String peerId) {
+    public FailureRecovery(String peerId) {
         this.peerId = peerId;
     }
     
