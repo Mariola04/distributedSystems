@@ -221,14 +221,6 @@ run-tom-p6:
 test-tom-chat:
 	$(JAVA) -cp $(CLASSPATH) $(TOM_PKG).TestChatApplication
 
-# Test malicious peer detection [EXTRA MARKS]
-test-tom-security:
-	./test_malicious_peer.sh
-
-# Visual security demo in terminals [EXTRA MARKS]
-run-tom-security-demo:
-	./run_security_demo.sh
-
 # Launch all TOM chat peers in separate terminals
 run-tom-demo: compile
 	@echo "Launching Total Order Multicast Chat demonstration in separate terminals..."
@@ -288,8 +280,6 @@ help:
 	@echo "Total Order Multicast (Chat Application):"
 	@echo "  run-tom-demo     - Launch ALL chat peers in separate terminals"
 	@echo "  test-tom-chat    - Run chat application test (automated)"
-	@echo "  test-tom-security- Test malicious peer detection [EXTRA MARKS]"
-	@echo "  run-tom-security-demo - Visual security demo with attack terminals [EXTRA MARKS]"
 	@echo "  run-tom-p1       - Start chat peer p1"
 	@echo "  run-tom-p2       - Start chat peer p2"
 	@echo "  run-tom-p3       - Start chat peer p3"
@@ -297,32 +287,7 @@ help:
 	@echo "  run-tom-p5       - Start chat peer p5"
 	@echo "  run-tom-p6       - Start chat peer p6"
 	@echo ""
-	@echo "TESTING:"
-	@echo "  test-calculator  - Test calculator server operations"
-	@echo "  test-poisson     - Test Poisson request generation"
-	@echo "  test-basic       - Test basic token ring (30s)"
-	@echo "  test-failure     - Test failure recovery [EXTRA MARKS]"
-	@echo "  test-all         - Run all token ring tests"
 
-# Testing targets
-test-basic:
-	@echo "Running basic token ring test..."
-	./test/test-basic-token-ring.sh
-
-test-failure:
-	@echo "Running failure recovery test [EXTRA MARKS]..."
-	./test/test-failure-recovery.sh
-
-test-calculator:
-	@echo "Running calculator server test..."
-	./test/test-calculator-server.sh
-
-test-poisson:
-	@echo "Running Poisson generation test..."
-	./test/test-poisson-generation.sh
-
-test-all: test-calculator test-poisson test-basic test-failure
-	@echo "All Token Ring tests completed!"
 
 # Check if Java files exist
 check-sources:
@@ -340,5 +305,4 @@ rebuild: clean compile
         run-tring-server run-tring-p1 run-tring-p2 run-tring-p3 run-tring-p4 run-tring-p5 run-tring-demo \
         run-p2p-p1 run-p2p-p2 run-p2p-p3 run-p2p-p4 run-p2p-p5 run-p2p-p6 run-p2p-demo \
         run-p2p-p1-convergence run-p2p-p2-convergence run-p2p-p3-convergence run-p2p-p4-convergence run-p2p-p5-convergence run-p2p-p6-convergence \
-        run-tom-p1 run-tom-p2 run-tom-p3 run-tom-p4 run-tom-p5 run-tom-p6 run-tom-demo test-tom-chat test-tom-security run-tom-security-demo \
-        test-basic test-failure test-calculator test-poisson test-all
+        run-tom-p1 run-tom-p2 run-tom-p3 run-tom-p4 run-tom-p5 run-tom-p6 run-tom-demo test-tom-chat
