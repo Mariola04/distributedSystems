@@ -4,7 +4,6 @@ import java.util.Random;
 
 /**
  * Utility class for generating Poisson distributed intervals
- * Based on professor's PoissonProcess implementation
  */
 public class PoissonGenerator {
     
@@ -12,7 +11,6 @@ public class PoissonGenerator {
     
     /**
      * Generate next interval following Poisson distribution
-     * Implementation based on professor's PoissonProcess.timeForNextEvent()
      * 
      * @param rate Events per time unit (lambda parameter)
      * @return Interval in time units until next event
